@@ -6,7 +6,10 @@
 #ifndef KENKO_WIDGETS_H
 #define KENKO_WIDGETS_H
 
-typedef struct {
+#include <stdbool.h>
+#include <stddef.h>
+
+typedef struct SwayColor {
   unsigned int r;
   unsigned int g;
   unsigned int b;
@@ -16,14 +19,14 @@ typedef struct {
 #define KENKO_NEW_COLOR(R, G, B, A) (SwayColor) { R, G, B, A }
 
 typedef enum {
-  LEFT,
-  RIGHT,
-  CENTER
+  ALIGN_LEFT,
+  ALIGN_RIGHT,
+  ALIGN_CENTER
 } SwayAlignment;
 
 typedef enum {
-  NONE,
-  PANGO
+  MARKUP_NONE,
+  MARKUP_PANGO
 } SwayMarkup;
 
 typedef struct IWidget {
@@ -31,35 +34,35 @@ typedef struct IWidget {
   const char *(*short_text) (void);
   
   // foreground and background colors
-  const SwayColor (*color) (void);
-  const SwayColor (*background) (void);
+  SwayColor (*color) (void);
+  SwayColor (*background) (void);
   
   // borders
-  const SwayColor (*border) (void);
-  const unsigned int (*border_top) (void);
-  const unsigned int (*border_bottom) (void);
-  const unsigned int (*border_left) (void);
-  const unsigned int (*border_right) (void);
+  SwayColor (*border) (void);
+  unsigned int (*border_top) (void);
+  unsigned int (*border_bottom) (void);
+  unsigned int (*border_left) (void);
+  unsigned int (*border_right) (void);
   // TODO: const unsigned int (*min_width) (void);
-  const SwayAlignment (*align) (void);
+  SwayAlignment (*align) (void);
 
   const char *(*name) (void);
   const char *(*instance) (void);
-  const bool (*urgent) (void);
-  const bool (*separator) (void);
-  const unsigned int (*separator_block_width) (void);
-  const SwayMarkup (*markup) (void);
+  bool (*urgent) (void);
+  bool (*separator) (void);
+  unsigned int (*separator_block_width) (void);
+  SwayMarkup (*markup) (void);
 } IWidget;
 
 #define KENKO_EXPAND(...) __VA_ARGS__
 
 // macro that lets the user conviniently declare a new widget type
-#define KENKO_DECLARE_WIDGET(widget_name, fields              \
+#define KENKO_DECLARE_WIDGET(widget_name, fields)             \
   typedef struct widget_name {                                \
     IWidget *vtable;                                          \
     KENKO_EXPAND fields                                       \
   } widget_name;                                              \
-  _Static_assert(offsetof(name, vtable) == 0,                 \
+  _Static_assert(offsetof(widget_name, vtable) == 0,          \
       "Struct " #widget_name " is not suitable widget type.")
 
 #endif // KENKO_WIDGETS_H

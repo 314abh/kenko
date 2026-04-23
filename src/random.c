@@ -3,11 +3,9 @@
 // Widget that generates random numbers.
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "random.h"
-#include "widgets.h"
-
-#define RANDOM_WIDGET_NAME DEF_TAG " " "RANDOM_WIDGET"
 
 static IWidget random_vt = {
   .full_text = random_full_text,
@@ -31,45 +29,39 @@ static IWidget random_vt = {
 
 KENKO_DECLARE_WIDGET(RandomWidget,
   (const char *name;
-   const bool separator;)
+   bool separator;)
 );
-
-typedef struct RandomWidget {
-  IWidget *vtable;
-  const char *name;
-  const bool separator;
-} RandomWidget;
 
 static RandomWidget random_widget;
 
 RandomWidget *make_random() {
-  random_widget->vtable = random_vt;
-  random_widget->name = RANDOM_WIDGET_NAME;
-  random_widget->separator = true;
+  random_widget.vtable = &random_vt;
+  random_widget.name = RANDOM_WIDGET_NAME;
+  random_widget.separator = true;
 
-  return random_widget;
+  return &random_widget;
 }
 
 static const char *dummy_long  = "12345679";
 static const char *dummy_short = "1234";
 
-const char *random_full_text() {
+const char *random_full_text(void) {
   return dummy_long;
 }
 
-const char *random_short_text() {
+const char *random_short_text(void) {
   return dummy_short;
 }
 
-SwayColor random_color() {
+SwayColor random_color(void) {
   return KENKO_NEW_COLOR(0xFF, 0xFF, 0xFF, 0xFF); // white
 }
 
-SwayColor random_bg() {
+SwayColor random_bg(void) {
   return KENKO_NEW_COLOR(0x00, 0x00, 0x00, 0x00); // black
 }
 
-SwayColor random_border() {
+SwayColor random_border(void) {
   return KENKO_NEW_COLOR(0xFF, 0xFF, 0xFF, 0xFF); // white
 }
 
