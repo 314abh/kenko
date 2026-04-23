@@ -1,5 +1,8 @@
 // - defaults.c
 
+#include <stdbool.h>
+
+#include "widgets.h"
 #include "defaults.h"
 
 const char *kenko_default_short_text(void)
@@ -53,6 +56,6 @@ unsigned int kenko_default_separator_block_width(void)
 
 SwayMarkup kenko_default_markup(void)
 {
-  return NONE;
+  return MARKUP_NONE;
 }
 
