@@ -1,4 +1,4 @@
-// -- random.c
+// - random.c
 //
 // Widget that generates random numbers.
 
@@ -17,7 +17,7 @@ static IWidget random_vt = {
   .border_bottom = NULL,
   .border_left = NULL,
   .border_right = NULL,
-  // .min_width = random_min_width,
+  .min_width = NULL,
   .align = NULL,
   .name = NULL,
   .instance = NULL,

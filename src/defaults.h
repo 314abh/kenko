@@ -23,6 +23,9 @@ unsigned int kenko_default_border_bottom(void);
 unsigned int kenko_default_border_left(void);
 unsigned int kenko_default_border_right(void);
 
+SwayWidth kenko_default_min_width(void);
+SwayAlignment kenko_default_align(void);
+
 const char *kenko_default_name(void);
 const char *kenko_default_instance(void);
 bool kenko_default_urgent(void);
