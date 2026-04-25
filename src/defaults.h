@@ -12,26 +12,26 @@
 
 /* === default widget functions === */
 
-const char *kenko_default_short_text(void);
+const char *kenko_default_short_text(IWidget *self);
 
-SwayColor kenko_default_color(void);
-SwayColor kenko_default_background(void);
+SwayColor kenko_default_color(IWidget *self);
+SwayColor kenko_default_background(IWidget *self);
 
-SwayColor kenko_default_border(void);
-unsigned int kenko_default_border_top(void);
-unsigned int kenko_default_border_bottom(void);
-unsigned int kenko_default_border_left(void);
-unsigned int kenko_default_border_right(void);
+SwayColor kenko_default_border(IWidget *self);
+unsigned int kenko_default_border_top(IWidget *self);
+unsigned int kenko_default_border_bottom(IWidget *self);
+unsigned int kenko_default_border_left(IWidget *self);
+unsigned int kenko_default_border_right(IWidget *self);
 
-SwayWidth kenko_default_min_width(void);
-SwayAlignment kenko_default_align(void);
+SwayWidth kenko_default_min_width(IWidget *self);
+SwayAlignment kenko_default_align(IWidget *self);
 
-const char *kenko_default_name(void);
-const char *kenko_default_instance(void);
-bool kenko_default_urgent(void);
-bool kenko_default_separator(void);
-unsigned int kenko_default_separator_block_width(void);
-SwayMarkup kenko_default_markup(void);
+const char *kenko_default_name(IWidget *self);
+const char *kenko_default_instance(IWidget *self);
+bool kenko_default_urgent(IWidget *self);
+bool kenko_default_separator(IWidget *self);
+unsigned int kenko_default_separator_block_width(IWidget *self);
+SwayMarkup kenko_default_markup(IWidget *self);
 
 /* ================================ */
 

@@ -8,6 +8,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 typedef struct SwayColor {
   unsigned int r;
@@ -39,45 +40,55 @@ typedef struct SwayWidth {
   union {
     const char *str_width;
     uint32_t numeric_width;
-  }
+  };
 } SwayWidth;
 
 #define kenko_new_min_width(t) (SwayWidth) { .kind = t };
 
-typedef struct IWidget {
-  const char *(*full_text) (void);
-  const char *(*short_text) (void);
+typedef struct IWidget IWidget;
+
+struct IWidget {
+  const char *(*full_text) (IWidget *self);
+  const char *(*short_text) (IWidget *self);
   
   // foreground and background colors
-  SwayColor (*color) (void);
-  SwayColor (*background) (void);
+  SwayColor (*color) (IWidget *self);
+  SwayColor (*background) (IWidget *self);
   
   // borders
-  SwayColor (*border) (void);
-  unsigned int (*border_top) (void);
-  unsigned int (*border_bottom) (void);
-  unsigned int (*border_left) (void);
-  unsigned int (*border_right) (void);
+  SwayColor (*border) (IWidget *self);
+  unsigned int (*border_top) (IWidget *self);
+  unsigned int (*border_bottom) (IWidget *self);
+  unsigned int (*border_left) (IWidget *self);
+  unsigned int (*border_right) (IWidget *self);
  
   // minimum width and alignment
-  SwayWidth (*min_width) (void);
-  SwayAlignment (*align) (void);
+  SwayWidth (*min_width) (IWidget *self);
+  SwayAlignment (*align) (IWidget *self);
 
-  const char *(*name) (void);
-  const char *(*instance) (void);
-  bool (*urgent) (void);
-  bool (*separator) (void);
-  unsigned int (*separator_block_width) (void);
-  SwayMarkup (*markup) (void);
-} IWidget;
+  const char *(*name) (IWidget *self);
+  const char *(*instance) (IWidget *self);
+  bool (*urgent) (IWidget *self);
+  bool (*separator) (IWidget *self);
+  unsigned int (*separator_block_width) (IWidget *self);
+  SwayMarkup (*markup) (IWidget *self);
+};
 
 #define KENKO_EXPAND(...) __VA_ARGS__
+
+#define container_of(ptr, type, member)             \
+  ((type *)((char *)(ptr) - offsetof(type, member)))
+
+#define get_self(ptr, type) container_of(ptr, type, vtable)
+#define get_iwidget(widget_ptr) ((IWidget *)(widget_ptr))
+
+
 
 // macro that lets the user conviniently declare a new widget type
 #define KENKO_DECLARE_WIDGET(widget_name, fields)             \
   typedef struct widget_name                                  \
   {                                                           \
-    IWidget *vtable;                                          \
+    IWidget vtable;                                           \
     KENKO_EXPAND fields                                       \
   } widget_name;                                              \
                                                               \

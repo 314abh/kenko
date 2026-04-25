@@ -3,6 +3,8 @@
 #ifndef KENKO_JSON_H
 #define KENKO_JSON_H
 
+#include <stdbool.h>
+
 // TODO:
 // - make header
 // - make body
